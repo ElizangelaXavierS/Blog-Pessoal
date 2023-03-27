@@ -39,6 +39,7 @@ public class UsuarioController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+		System.out.println("Entrou");
 		return usuarioRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
