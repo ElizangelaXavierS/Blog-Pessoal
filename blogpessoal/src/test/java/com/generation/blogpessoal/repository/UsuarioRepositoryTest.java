@@ -18,49 +18,54 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import com.generation.blogpessoal.model.Usuario;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UsuarioRepositoryTest {
-
+    
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
 	@BeforeAll
-	void start() {
+	void start(){
+
 		usuarioRepository.deleteAll();
-		usuarioRepository.save(
-				new Usuario(0L, "João da Silva", "joao@email.com.br", "123456789", "https://i.imgur.com/FETvs20.jpg"));
-		usuarioRepository.save(new Usuario(0L, "Manula de Silva", "manuela@email.com.br", "123456789",
-				"https://i.imgur.com/NtyGneo.jpg"));
-		usuarioRepository.save(new Usuario(0L, "Adriana da Silva", "adriana@email.com.br", "123456789",
-				"https://i.imgur.com/mB3VM2N.jpg"));
-		usuarioRepository.save(
-				new Usuario(0L, "Paulo Antunes", "paulo@email.com.br", "123456789", "https://i.imgur.com/JK7kUFU.jpg"));
+
+		usuarioRepository.save(new Usuario(0L, "João da Silva", "joao@email.com.br", "13465278", "https://i.imgur.com/FETvs2O.jpg"));
+		
+		usuarioRepository.save(new Usuario(0L, "Manuela da Silva", "manuela@email.com.br", "13465278", "https://i.imgur.com/NtyGneo.jpg"));
+		
+		usuarioRepository.save(new Usuario(0L, "Adriana da Silva", "adriana@email.com.br", "13465278", "https://i.imgur.com/mB3VM2N.jpg"));
+
+        usuarioRepository.save(new Usuario(0L, "Paulo Antunes", "paulo@email.com.br", "13465278", "https://i.imgur.com/JR7kUFU.jpg"));
 
 	}
 
 	@Test
 	@DisplayName("Retorna 1 usuario")
-	public void deveRetornaUmUsuario() {
+	public void deveRetornarUmUsuario() {
 
 		Optional<Usuario> usuario = usuarioRepository.findByUsuario("joao@email.com.br");
-		assertTrue(usuario.get().getUsuario().equals("joao@email.com.br"));
 
+		assertTrue(usuario.get().getUsuario().equals("joao@email.com.br"));
 	}
 
 	@Test
 	@DisplayName("Retorna 3 usuarios")
-	public void deveRetornoTresUsuario() {
+	public void deveRetornarTresUsuarios() {
 
-		List<Usuario> listaDeUsuario = usuarioRepository.findAllByNomeContainigIgnoreCase("Silva");
-		assertEquals(3, listaDeUsuario.size());
-		assertTrue(listaDeUsuario.get(0).getUsuario().equals("Joao da Silva"));
-		assertTrue(listaDeUsuario.get(1).getUsuario().equals("Manulea da Silva"));
-		assertTrue(listaDeUsuario.get(2).getUsuario().equals("Adriana da Silva"));
+		List<Usuario> listaDeUsuarios = usuarioRepository.findAllByNomeContainingIgnoreCase("Silva");
 
+		assertEquals(3, listaDeUsuarios.size());
+		
+		assertTrue(listaDeUsuarios.get(0).getNome().equals("João da Silva"));
+		assertTrue(listaDeUsuarios.get(1).getNome().equals("Manuela da Silva"));
+		assertTrue(listaDeUsuarios.get(2).getNome().equals("Adriana da Silva"));
+		
 	}
+
 	
 	@AfterAll
 	public void end() {
 		usuarioRepository.deleteAll();
 	}
+	
 }
